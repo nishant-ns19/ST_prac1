@@ -3,6 +3,7 @@ package com.nishant.demo;
 import javafx.util.Pair;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Shop {
     private final HashMap<String, Integer> quantity;
@@ -53,7 +54,7 @@ public class Shop {
         return this.quantity.get(name);
     }
 
-    public int buyItem(Pair<String, Integer>[] cart) throws Exception {
+    public int buyItem(List<Pair<String, Integer>> cart) throws Exception {
         int totalBill = 0;
         for (Pair<String, Integer> item : cart) {
             if (!isAlphaNumeric(item.getKey())) {
