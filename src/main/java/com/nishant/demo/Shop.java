@@ -1,5 +1,7 @@
 package com.nishant.demo;
 
+import javafx.util.Pair;
+
 import java.util.HashMap;
 
 public class Shop {
@@ -19,8 +21,8 @@ public class Shop {
         return quantity.containsKey(s);
     }
 
-    public boolean addNewItem(String name, Integer initialQuantity,Integer perItemCost) throws Exception {
-        if(perItemCost<=0){
+    public boolean addNewItem(String name, Integer initialQuantity, Integer perItemCost) throws Exception {
+        if (perItemCost <= 0) {
             throw new Exception("Invalid per item cost");
         }
         if (initialQuantity <= 0) {
@@ -37,7 +39,7 @@ public class Shop {
         return true;
     }
 
-    public Integer restockItem(String name, Integer quantity) throws Exception {
+    public int restockItem(String name, Integer quantity) throws Exception {
         if (quantity <= 0) {
             throw new Exception("Invalid quantity");
         }
@@ -49,6 +51,27 @@ public class Shop {
         }
         this.quantity.put(name, this.quantity.get(name) + quantity);
         return this.quantity.get(name);
+    }
+
+    public int buyItem(Pair<String, Integer>[] cart) throws Exception {
+        int totalBill = 0;
+        for (Pair<String, Integer> item : cart) {
+            if (!isAlphaNumeric(item.getKey())) {
+                throw new Exception("Invalid name: " + item.getKey());
+            }
+            if (item.getValue() <= 0) {
+                throw new Exception("Invalid quantity for: " + item.getKey());
+            }
+            if (!isPresent(item.getKey()) || quantity.get(item.getKey()) <= 0) {
+                throw new Exception("Item not available: " + item.getKey());
+            }
+            if (quantity.get(item.getKey()) < item.getValue()) {
+                throw new Exception("Insufficient stock for: " + item.getKey());
+            }
+            quantity.put(item.getKey(), quantity.get(item.getKey()) - item.getValue());
+            totalBill = totalBill + item.getValue() * cost.get(item.getKey());
+        }
+        return totalBill;
     }
 
 }
