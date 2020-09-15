@@ -7,6 +7,12 @@ import java.util.Map;
 public class Shop {
     private final HashMap<String, Integer> quantity;
     private final HashMap<String, Integer> cost;
+    private final int MIN_WORDS = 1;
+    private final int MAX_WORDS = 10;
+    private final int MAX_COST = 10000000;
+    private final int MIN_COST = 1;
+    private final int MIN_INITIAL_QUANTITY = 1;
+
 
     Shop() {
         quantity = new HashMap<>();
@@ -22,10 +28,10 @@ public class Shop {
     }
 
     public boolean addNewItem(String name, Integer initialQuantity, Integer perItemCost) throws Exception {
-        if (perItemCost <= 0) {
+        if (perItemCost <= MIN_COST) {
             throw new Exception("Invalid per item cost");
         }
-        if (initialQuantity <= 0) {
+        if (initialQuantity <= MIN_INITIAL_QUANTITY) {
             throw new Exception("Invalid quantity");
         }
         if (!isAlphaNumeric(name)) {
@@ -34,13 +40,17 @@ public class Shop {
         if (isPresent(name)) {
             throw new Exception("Existing item can't be added again");
         }
+        int countWords = name.split("\\s+").length;
+        if(countWords < MIN_WORDS) {
+            throw new Exception("Invalid name");
+        }
         quantity.put(name, initialQuantity);
         cost.put(name, perItemCost);
         return true;
     }
 
     public int restockItem(String name, Integer quantity) throws Exception {
-        if (quantity <= 0) {
+        if (quantity <= MIN_INITIAL_QUANTITY) {
             throw new Exception("Invalid quantity");
         }
         if (!isAlphaNumeric(name)) {
@@ -60,10 +70,10 @@ public class Shop {
             if (!isAlphaNumeric(itemName)) {
                 throw new Exception("Invalid name: " + itemName);
             }
-            if (itemQuantity <= 0) {
+            if (itemQuantity <= MIN_INITIAL_QUANTITY) {
                 throw new Exception("Invalid quantity for: " + itemName);
             }
-            if (!isPresent(itemName) || quantity.get(itemName) <= 0) {
+            if (!isPresent(itemName) || quantity.get(itemName) <= MIN_INITIAL_QUANTITY) {
                 throw new Exception("Item not available: " + itemName);
             }
             if (quantity.get(itemName) < itemQuantity) {
