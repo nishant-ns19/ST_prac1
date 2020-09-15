@@ -42,8 +42,10 @@ public class Shop {
 
     public boolean checkQuantity(Integer quantity) { return quantity >= MIN_INITIAL_QUANTITY; }
 
+    public boolean checkCost(Integer cost) { return (cost >= MIN_COST && cost <= MAX_COST); }
+
     public boolean addNewItem(String name, Integer initialQuantity, Integer perItemCost) throws Exception {
-        if (perItemCost < MIN_COST) {
+        if (!checkCost(perItemCost)) {
             throw new Exception("Invalid per item cost");
         }
         if (!checkQuantity(initialQuantity)) {

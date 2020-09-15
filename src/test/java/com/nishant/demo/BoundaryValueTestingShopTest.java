@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoundaryValueTestingShopTest {
     Random rand = new Random();
+    Exception exception;
     @Test
     void AddNewItem() throws Exception {
         Shop shop = new Shop();
@@ -46,13 +47,53 @@ class BoundaryValueTestingShopTest {
         shop.addNewItem("Mi Band 5", rand.nextInt(1000) + 1, 2500);
         shop.addNewItem("Google Glasses", rand.nextInt(1000) + 1, 20000);
         shop.addNewItem("OnePlus Buds", rand.nextInt(1000) + 1, 7000);
-        // In-Range Values
+        // 1. In-Range Values
         HashMap<String, Integer> quantity = shop.getQuantity();
         for(String name : quantity.keySet()) {
             int restockQuantity = rand.nextInt(1000) + 1;
             assertEquals(quantity.get(name) + restockQuantity, shop.restockItem(name, restockQuantity));
         }
-        // Maximum - value
+        // 2. Minimum value
+        //    a. quantity [minimum]
+        shop.addNewItem("Bugatti Veyron", 1, 100000);
+        assertEquals(2, shop.restockItem("Bugatti Veyron", 1));
+        //    b. name [minimum]
+        shop.addNewItem("Bag", 5, 2000);
+        assertEquals(7, shop.restockItem("Bag", 2));
+
+        // 3. Minimum value + 1
+        //    a. quantity [minimum + 1]
+        shop.addNewItem("Apple Watch", 2, 50000);
+        assertEquals(4, shop.restockItem("Apple Watch", 2));
+        //    b. name [minimum + 1]
+        shop.addNewItem("Skipping Rope", 47, 200);
+        assertEquals(100, shop.restockItem("Skipping Rope", 53));
+
+        // 4. Minimum value - 1
+        //    a. quantity [minimum - 1]
+        shop.addNewItem("Rolex Watch", 6, 34827);
+        exception = assertThrows(Exception.class, () -> shop.restockItem("Rolex Watch",0));
+        assertEquals("Invalid quantity", exception.getMessage());
+        //    b. name [minimum - 1]
+        shop.addNewItem("Cap", 50, 90);
+        exception = assertThrows(Exception.class, () -> shop.restockItem(" ", 3));
+        assertEquals("Invalid item name length", exception.getMessage());
+
+        // 5. Maximum value
+        //    a. name [maximum]
+        shop.addNewItem("A B C D E 1 2 3 4 5", 10, 100);
+        assertEquals(20, shop.restockItem("A B C D E 1 2 3 4 5", 10));
+
+        // 6. Maximum value - 1
+        //    a. name [maximum - 1]
+        shop.addNewItem("A B C D E 1 2 3 4", 567, 450);
+        assertEquals(600, shop.restockItem("A B C D E 1 2 3 4", 33));
+
+        // 7. Maximum value + 1
+        //    a. name [maximum + 1]
+        shop.addNewItem("A B C D E 1 2 3", 34, 2321);
+        exception = assertThrows(Exception.class, () -> shop.restockItem("A B C D E 1 2 3 4 5 6", 16));
+        assertEquals("Invalid item name length", exception.getMessage());
     }
 
     @Test
