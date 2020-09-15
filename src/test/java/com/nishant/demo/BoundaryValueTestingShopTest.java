@@ -52,7 +52,7 @@ class BoundaryValueTestingShopTest {
             int restockQuantity = rand.nextInt(1000) + 1;
             assertEquals(quantity.get(name) + restockQuantity, shop.restockItem(name, restockQuantity));
         }
-
+        // Maximum - value
     }
 
     @Test
