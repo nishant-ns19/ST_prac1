@@ -80,7 +80,7 @@ class BoundaryValueTestingShopTest {
         assertEquals(2720000,shop1.buyItem(cart));
 
 
-//        Maximum- Value for qunatity
+//        Maximum- Value for quantity
         cart.clear();
         shop1.restockItem("Printer",26);
         shop1.restockItem("Mobile",53);
