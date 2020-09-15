@@ -1,9 +1,8 @@
 package com.nishant.demo;
 
-import javafx.util.Pair;
-
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Shop {
     private final HashMap<String, Integer> quantity;
@@ -54,23 +53,24 @@ public class Shop {
         return this.quantity.get(name);
     }
 
-    public int buyItem(List<Pair<String, Integer>> cart) throws Exception {
+    public int buyItem(HashMap<String, Integer> cart) throws Exception {
         int totalBill = 0;
-        for (Pair<String, Integer> item : cart) {
-            if (!isAlphaNumeric(item.getKey())) {
-                throw new Exception("Invalid name: " + item.getKey());
+        for (String itemName : cart.keySet()) {
+            int itemQuantity = cart.get(itemName);
+            if (!isAlphaNumeric(itemName)) {
+                throw new Exception("Invalid name: " + itemName);
             }
-            if (item.getValue() <= 0) {
-                throw new Exception("Invalid quantity for: " + item.getKey());
+            if (itemQuantity <= 0) {
+                throw new Exception("Invalid quantity for: " + itemName);
             }
-            if (!isPresent(item.getKey()) || quantity.get(item.getKey()) <= 0) {
-                throw new Exception("Item not available: " + item.getKey());
+            if (!isPresent(itemName) || quantity.get(itemName) <= 0) {
+                throw new Exception("Item not available: " + itemName);
             }
-            if (quantity.get(item.getKey()) < item.getValue()) {
-                throw new Exception("Insufficient stock for: " + item.getKey());
+            if (quantity.get(itemName) < itemQuantity) {
+                throw new Exception("Insufficient stock for: " + itemName);
             }
-            quantity.put(item.getKey(), quantity.get(item.getKey()) - item.getValue());
-            totalBill = totalBill + item.getValue() * cost.get(item.getKey());
+            quantity.put(itemName, quantity.get(itemName) - itemQuantity);
+            totalBill = totalBill + itemQuantity * cost.get(itemName);
         }
         return totalBill;
     }
