@@ -66,7 +66,8 @@ public class Shop {
         int totalBill = 0;
         for (String itemName : cart.keySet()) {
             int itemQuantity = cart.get(itemName);
-            if (itemQuantity <= MIN_INITIAL_QUANTITY) {
+            if (itemQuantity < MIN_INITIAL_QUANTITY) {
+
                 throw new Exception("Invalid quantity for: " + itemName);
             }
             if (!isPresent(itemName) || quantity.get(itemName) <= MIN_INITIAL_QUANTITY) {
