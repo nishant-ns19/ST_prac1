@@ -1,8 +1,6 @@
 package com.nishant.demo;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Shop {
     private final HashMap<String, Integer> quantity;
@@ -27,21 +25,35 @@ public class Shop {
         return quantity.containsKey(s);
     }
 
+    public boolean checkRegex(String name) {
+        String words[] = name.split("\\s+");
+        for(String word : words){
+            if (!isAlphaNumeric(word)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkNameLength(String name) {
+        Integer length = name.split("\\s+").length;
+        return (length >= MIN_WORDS && length <= MAX_WORDS);
+    }
+
+    public boolean checkQuantity(Integer quantity) { return quantity >= MIN_INITIAL_QUANTITY; }
+
     public boolean addNewItem(String name, Integer initialQuantity, Integer perItemCost) throws Exception {
         if (perItemCost < MIN_COST) {
             throw new Exception("Invalid per item cost");
         }
-        if (initialQuantity < MIN_INITIAL_QUANTITY) {
+        if (!checkQuantity(initialQuantity)) {
             throw new Exception("Invalid quantity");
         }
-        String words[] = name.split("\\s+");
-        if(words.length < MIN_WORDS || words.length > MAX_WORDS) {
+        if (!checkNameLength(name)) {
             throw new Exception("Invalid item name length");
         }
-        for(String word : words){
-            if (!isAlphaNumeric(word)) {
-                throw new Exception("Invalid name");
-            }
+        if (!checkRegex(name)) {
+            throw new Exception("Invalid name");
         }
         if (isPresent(name)) {
             throw new Exception("Existing item can't be added again");
@@ -52,8 +64,14 @@ public class Shop {
     }
 
     public int restockItem(String name, Integer quantity) throws Exception {
-        if (quantity <= MIN_INITIAL_QUANTITY) {
+        if (!checkQuantity(quantity)) {
             throw new Exception("Invalid quantity");
+        }
+        if (!checkNameLength(name)) {
+            throw new Exception("Invalid item name length");
+        }
+        if (!checkRegex(name)) {
+            throw new Exception("Invalid name");
         }
         if (!isPresent(name)) {
             throw new Exception("Item not available for re-stocking");
@@ -66,8 +84,7 @@ public class Shop {
         int totalBill = 0;
         for (String itemName : cart.keySet()) {
             int itemQuantity = cart.get(itemName);
-            if (itemQuantity < MIN_INITIAL_QUANTITY) {
-
+            if (!checkQuantity(itemQuantity)) {
                 throw new Exception("Invalid quantity for: " + itemName);
             }
             if (!isPresent(itemName) || quantity.get(itemName) <= MIN_INITIAL_QUANTITY) {
@@ -82,6 +99,13 @@ public class Shop {
         return totalBill;
     }
 
+    public HashMap<String, Integer> getQuantity() {
+        return quantity;
+    }
+
+    public HashMap<String, Integer> getCost() {
+        return cost;
+    }
 }
 
 

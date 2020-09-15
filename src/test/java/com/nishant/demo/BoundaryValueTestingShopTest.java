@@ -3,7 +3,7 @@ package com.nishant.demo;
 //import javafx.util.Pair;
 //import jdk.internal.util.xml.impl.Pair;
 import org.junit.jupiter.api.Test;
-
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoundaryValueTestingShopTest {
-
+    Random rand = new Random();
     @Test
     void AddNewItem() throws Exception {
         Shop shop = new Shop();
@@ -38,10 +38,20 @@ class BoundaryValueTestingShopTest {
     }
 
     @Test
-    void restockItem() {
-
-
-
+    void restockItem() throws Exception {
+        Shop shop = new Shop();
+        shop.addNewItem("Apple MacBook", rand.nextInt(1000) + 1, 150000);
+        shop.addNewItem("OnePlus 8T", rand.nextInt(1000) + 1, 45000);
+        shop.addNewItem("Samsung Galaxy Note 10", rand.nextInt(1000) + 1, 55000);
+        shop.addNewItem("Mi Band 5", rand.nextInt(1000) + 1, 2500);
+        shop.addNewItem("Google Glasses", rand.nextInt(1000) + 1, 20000);
+        shop.addNewItem("OnePlus Buds", rand.nextInt(1000) + 1, 7000);
+        // In-Range Values
+        HashMap<String, Integer> quantity = shop.getQuantity();
+        for(String name : quantity.keySet()) {
+            int restockQuantity = rand.nextInt(1000) + 1;
+            assertEquals(quantity.get(name) + restockQuantity, shop.restockItem(name, restockQuantity));
+        }
 
     }
 
