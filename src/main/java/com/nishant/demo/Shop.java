@@ -7,7 +7,7 @@ public class Shop {
     private final HashMap<String, Integer> cost;
     private final int MIN_WORDS = 1;
     private final int MAX_WORDS = 10;
-    private final int MAX_COST = 10000000;
+    private final int MAX_COST = 2000000000;
     private final int MIN_COST = 1;
     private final int MIN_INITIAL_QUANTITY = 1;
 
@@ -49,7 +49,7 @@ public class Shop {
             throw new Exception("Invalid per item cost");
         }
         if (!checkQuantity(initialQuantity)) {
-            throw new Exception("Invalid quantity");
+            throw new Exception("Invalid initial quantity");
         }
         if (!checkNameLength(name)) {
             throw new Exception("Invalid item name length");
