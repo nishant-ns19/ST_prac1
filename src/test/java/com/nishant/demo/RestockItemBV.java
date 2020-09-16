@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class RestockItem extends BoundaryValueTestingShopTest {
+public class RestockItemBV extends ShopTest {
     // Attribute -> name
     // Datatype -> String
     // Range -> number of words in name = [1 - 10]

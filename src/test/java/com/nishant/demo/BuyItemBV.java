@@ -7,7 +7,7 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class BuyItem extends BoundaryValueTestingShopTest {
+public class BuyItemBV extends ShopTest {
     HashMap<String, Integer> cart = new HashMap<>();
 
     // Attribute -> name

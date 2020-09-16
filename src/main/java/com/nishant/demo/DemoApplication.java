@@ -1,5 +1,7 @@
 package com.nishant.demo;
 
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +11,6 @@ import java.util.HashMap;
 public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
-
 
 
     }
