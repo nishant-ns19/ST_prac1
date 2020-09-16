@@ -9,10 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoundaryValueTestingShopTest {
     Shop shop = new Shop();
     Random random = new Random();
-    Exception exception;
-    // function -> AddNewItem
-    // attributes -> (String name, Integer initialQuantity, Integer perItemCost)
-
+    Exception exception = new Exception();
 }
 
 //class buyItemAttributeName {
