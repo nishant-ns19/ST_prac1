@@ -59,7 +59,7 @@ public class Shop {
             throw new Exception("Invalid item name length");
         }
         if (!checkRegex(name)) {
-            throw new Exception("Invalid name");
+            throw new Exception("Invalid name, words should be alphanumeric");
         }
         if (isPresent(name)) {
             throw new Exception("Existing item can't be added again");
@@ -77,7 +77,7 @@ public class Shop {
             throw new Exception("Invalid item name length");
         }
         if (!checkRegex(name)) {
-            throw new Exception("Invalid name");
+            throw new Exception("Invalid name, words should be alphanumeric");
         }
         if (!isPresent(name)) {
             throw new Exception("Item not available for re-stocking");
@@ -94,7 +94,7 @@ public class Shop {
                 throw new Exception("Invalid item name length");
             }
             if (!checkRegex(itemName)) {
-                throw new Exception("Invalid name");
+                throw new Exception("Invalid name, words should be alphanumeric");
             }
             if (!checkQuantity(itemQuantity)) {
                 throw new Exception("Invalid quantity for one/more cart items");

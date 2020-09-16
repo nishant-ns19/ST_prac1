@@ -12,7 +12,7 @@ public class BuyItemEP extends ShopTest {
 
     // Attribute -> name
     // Datatype -> String
-    // Range -> number of words in name = [1 - 10]
+    // Range -> number of words in name = [1 - 10], each word = ^[a-zA-Z0-9]*$
     @Test
     void nameBelowMinimum() throws Exception {
         // number of words in name < 1
@@ -29,6 +29,15 @@ public class BuyItemEP extends ShopTest {
         cart.put("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10 K11", 5);
         exception = assertThrows(Exception.class, () -> shop.buyItem(cart));
         assertEquals("Invalid item name length", exception.getMessage());
+    }
+
+    @Test
+    void nameNonAlphanumeric() throws Exception {
+        // one or more words != ^[a-zA-Z0-9]*$
+        cart.clear();
+        cart.put("Not @lpha num£ric", 10);
+        exception = assertThrows(Exception.class, () -> shop.buyItem(cart));
+        assertEquals("Invalid name, words should be alphanumeric", exception.getMessage());
     }
 
     // Attribute -> quantity

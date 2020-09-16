@@ -17,12 +17,19 @@ public class RestockItemEP extends ShopTest {
         exception = assertThrows(Exception.class, () -> shop.restockItem(" ", 3));
         assertEquals("Invalid item name length", exception.getMessage());
     }
+
     @Test
     void nameAboveMaximum() throws Exception {
         // number of words in name = 11
-        shop.addNewItem("A B C D E 1 2 3", 34, 2321);
-        exception = assertThrows(Exception.class, () -> shop.restockItem("A B C D E 1 2 3 4 5 6", 16));
+        exception = assertThrows(Exception.class, () -> shop.restockItem("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10 K11", 16));
         assertEquals("Invalid item name length", exception.getMessage());
+    }
+
+    @Test
+    void nameNonAlphanumeric() throws Exception {
+        // one or more words != ^[a-zA-Z0-9]*$
+        exception = assertThrows(Exception.class, () -> shop.restockItem("Not @lpha num£ric", 20));
+        assertEquals("Invalid name, words should be alphanumeric", exception.getMessage());
     }
 
     // Attribute -> quantity

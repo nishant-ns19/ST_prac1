@@ -48,7 +48,6 @@ public class RestockItemBV extends ShopTest {
     @Test
     void nameAboveMaximum() throws Exception {
         // number of words in name = 11
-        shop.addNewItem("A1 B2 C3 D4 E5 F6 G7 H8", 34, 2321);
         exception = assertThrows(Exception.class, () -> shop.restockItem("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10 K11", 16));
         assertEquals("Invalid item name length", exception.getMessage());
     }
