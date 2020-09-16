@@ -17,12 +17,12 @@ public class Shop {
         cost = new HashMap<>();
     }
 
-    private boolean isAlphaNumeric(String s) {
-        return s != null && s.matches("^[a-zA-Z0-9]*$");
+    private boolean isAlphaNumeric(String name) {
+        return name != null && name.matches("^[a-zA-Z0-9]*$");
     }
 
-    public boolean isPresent(String s) {
-        return quantity.containsKey(s);
+    public boolean isPresent(String name) {
+        return quantity.containsKey(name) && quantity.get(name) >= MIN_INITIAL_QUANTITY;
     }
 
     public boolean checkRegex(String name) {
@@ -86,10 +86,16 @@ public class Shop {
         int totalBill = 0;
         for (String itemName : cart.keySet()) {
             int itemQuantity = cart.get(itemName);
+            if (!checkNameLength(itemName)) {
+                throw new Exception("Invalid item name length");
+            }
+            if (!checkRegex(itemName)) {
+                throw new Exception("Invalid name");
+            }
             if (!checkQuantity(itemQuantity)) {
                 throw new Exception("Invalid quantity for: " + itemName);
             }
-            if (!isPresent(itemName) || quantity.get(itemName) <= MIN_INITIAL_QUANTITY) {
+            if (!isPresent(itemName)) {
                 throw new Exception("Item not available/Invalid item name : " + itemName);
             }
             if (quantity.get(itemName) < itemQuantity) {

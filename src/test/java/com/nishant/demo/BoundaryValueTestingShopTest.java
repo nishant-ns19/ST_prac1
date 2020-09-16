@@ -54,6 +54,28 @@ class BoundaryValueTestingShopTest {
     }
 }
 
+class buyItemAttributeName {
+    Shop shop = new Shop();
+    Exception exception = new Exception();
+    Random random = new Random();
+    HashMap<String, Integer> cart = new HashMap<>();
+
+//    shop.addNewItem("Apple MacBook", random.nextInt(1000) + 1, 150000);
+//    shop.addNewItem("OnePlus 8T", random.nextInt(1000) + 1, 45000);
+//    shop.addNewItem("Samsung Galaxy Note 10", random.nextInt(1000) + 1, 55000);
+//    shop.addNewItem("Mi Band 5", random.nextInt(1000) + 1, 2500);
+//    shop.addNewItem("Google Glasses", random.nextInt(1000) + 1, 20000);
+//    shop.addNewItem("OnePlus Buds", random.nextInt(1000) + 1, 7000);
+
+    @Test
+    void belowMinimum() throws Exception {
+        cart.clear();
+        cart.put(" ", 5);
+        exception = assertThrows(Exception.class, () -> shop.buyItem(cart));
+        assertEquals("Invalid item name length", exception.getMessage());
+    }
+}
+
 class addNewItemAttributeName {
     Shop shop = new Shop();
     Exception exception = new Exception();
