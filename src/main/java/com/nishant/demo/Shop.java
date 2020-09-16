@@ -93,7 +93,7 @@ public class Shop {
                 throw new Exception("Invalid name");
             }
             if (!checkQuantity(itemQuantity)) {
-                throw new Exception("Invalid quantity for: " + itemName);
+                throw new Exception("Invalid quantity for one/more cart items");
             }
             if (!isPresent(itemName)) {
                 throw new Exception("Item not available/Invalid item name : " + itemName);

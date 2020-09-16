@@ -9,49 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoundaryValueTestingShopTest {
     Random rand = new Random();
     Exception exception;
-
-    @Test
-    void buyItem() throws Exception {
-        Shop shop1 = new Shop();
-        shop1.addNewItem("Printer",50,6000);
-        shop1.addNewItem("Mobile",100,52000);
-        HashMap<String, Integer> cart=new HashMap<>();
-//        Minimum Value for quantities
-        cart.put("Printer",1);
-        cart.put("Mobile",1);
-        assertEquals(58000,shop1.buyItem(cart));
-
-
-//        Minimum+ Value for quantity
-        cart.clear();
-        cart.put("Printer",5);
-        cart.put("Mobile",2);
-        assertEquals(134000,shop1.buyItem(cart));
-
-//        Nominal Value for quantity
-        cart.clear();
-        cart.put("Printer",20);
-        cart.put("Mobile",50);
-        assertEquals(2720000,shop1.buyItem(cart));
-
-
-//        Maximum- Value for quantity
-        cart.clear();
-        shop1.restockItem("Printer",26);
-        shop1.restockItem("Mobile",53);
-        cart.put("Printer",48);
-        cart.put("Mobile",97);
-        assertEquals(5332000,shop1.buyItem(cart));
-
-
-//        Maximum Value for quantity
-        cart.clear();
-        shop1.restockItem("Printer",48);
-        shop1.restockItem("Mobile",97);
-        cart.put("Printer",50);
-        cart.put("Mobile",100);
-        assertEquals(5500000,shop1.buyItem(cart));
-    }
 }
 
 class buyItemAttributeName {
@@ -60,19 +17,140 @@ class buyItemAttributeName {
     Random random = new Random();
     HashMap<String, Integer> cart = new HashMap<>();
 
-//    shop.addNewItem("Apple MacBook", random.nextInt(1000) + 1, 150000);
-//    shop.addNewItem("OnePlus 8T", random.nextInt(1000) + 1, 45000);
-//    shop.addNewItem("Samsung Galaxy Note 10", random.nextInt(1000) + 1, 55000);
-//    shop.addNewItem("Mi Band 5", random.nextInt(1000) + 1, 2500);
-//    shop.addNewItem("Google Glasses", random.nextInt(1000) + 1, 20000);
-//    shop.addNewItem("OnePlus Buds", random.nextInt(1000) + 1, 7000);
-
     @Test
     void belowMinimum() throws Exception {
+        // number of words in name < 1
         cart.clear();
         cart.put(" ", 5);
         exception = assertThrows(Exception.class, () -> shop.buyItem(cart));
         assertEquals("Invalid item name length", exception.getMessage());
+    }
+
+    @Test
+    void minimum() throws Exception {
+        // number of words in name = 1
+        shop.addNewItem("Printer",50,6000);
+        cart.clear();
+        cart.put("Printer", 2);
+        assertEquals(12000, shop.buyItem(cart));
+    }
+
+    @Test
+    void aboveMinimum() throws Exception {
+        // number of words in name > 1
+        shop.addNewItem("Mobile Phone",100,52000);
+        cart.clear();
+        cart.put("Mobile Phone", 1);
+        assertEquals(52000, shop.buyItem(cart));
+    }
+
+    @Test
+    void inRange() throws Exception {
+        // number of words in name = [1 -10]
+        shop.addNewItem("JBL Bluetooth Headphones 220", 5, 4000);
+        cart.clear();
+        cart.put("JBL Bluetooth Headphones 220", 1);
+        assertEquals(4000, shop.buyItem(cart));
+    }
+
+    @Test
+    void belowMaximum() throws Exception {
+        // number of words in name < 10
+        shop.addNewItem("A1 B2 C3 D4 E5 F6 G7 H8 I9", 10, 300);
+        cart.clear();
+        cart.put("A1 B2 C3 D4 E5 F6 G7 H8 I9", 7);
+        assertEquals(2100, shop.buyItem(cart));
+    }
+
+    @Test
+    void maximum() throws Exception {
+        // number of words in name = 10
+        shop.addNewItem("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10", 50, 50);
+        cart.clear();
+        cart.put("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10", 25);
+        assertEquals(1250, shop.buyItem(cart));
+    }
+
+    @Test
+    void aboveMaximum() throws Exception {
+        // number of words in name > 10
+        cart.clear();
+        cart.put("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10 K11", 5);
+        exception = assertThrows(Exception.class, () -> shop.buyItem(cart));
+        assertEquals("Invalid item name length", exception.getMessage());
+    }
+}
+
+class buyItemAttributeQuantity {
+    Shop shop = new Shop();
+    Exception exception = new Exception();
+    HashMap<String, Integer> cart = new HashMap<>();
+    Random random = new Random();
+
+    @Test
+    void belowMinimum() throws Exception {
+        // quantity < 1
+        shop.addNewItem("iPhone X", 10, 52000);
+        cart.clear();
+        cart.put("iPhone X", 0);
+        exception = assertThrows(Exception.class, () -> shop.buyItem(cart));
+        assertEquals("Invalid quantity for one/more cart items", exception.getMessage());
+    }
+
+    @Test
+    void minimum() throws Exception {
+        // quantity = 1
+        shop.addNewItem("iPhone X", 10, 52000);
+        cart.clear();
+        cart.put("iPhone X", 1);
+        assertEquals(52000, shop.buyItem(cart));
+    }
+
+    @Test
+    void aboveMinimum() throws Exception {
+        // quantity > 1
+        shop.addNewItem("iPhone X", 10, 52000);
+        cart.clear();
+        cart.put("iPhone X", 2);
+        assertEquals(104000, shop.buyItem(cart));
+    }
+
+    @Test
+    void inRange() throws Exception {
+        // quantity = [1 - MAX_QUANTITY_AVAILABLE]
+        shop.addNewItem("iPhone X", 10, 52000);
+        int quantity = random.nextInt(9) + 1;
+        cart.clear();
+        cart.put("iPhone X", quantity);
+        assertEquals(quantity * 52000, shop.buyItem(cart));
+    }
+
+    @Test
+    void belowMaximum() throws Exception {
+        // quantity < MAX_QUANTITY_AVAILABLE
+        shop.addNewItem("iPhone X", 10, 52000);
+        cart.clear();
+        cart.put("iPhone X", 9);
+        assertEquals(468000, shop.buyItem(cart));
+    }
+
+    @Test
+    void maximum() throws Exception {
+        // quantity = MAX_QUANTITY_AVAILABLE
+        shop.addNewItem("iPhone X", 10, 52000);
+        cart.clear();
+        cart.put("iPhone X", 10);
+        assertEquals(520000, shop.buyItem(cart));
+    }
+
+    @Test
+    void aboveMaximum() throws Exception {
+        // quantity > MAX_QUANTITY_AVAILABLE
+        shop.addNewItem("iPhone X", 10, 52000);
+        cart.clear();
+        cart.put("iPhone X", 11);
+        exception = assertThrows(Exception.class, () -> shop.buyItem(cart));
+        assertEquals("Insufficient stock for: iPhone X", exception.getMessage());
     }
 }
 
