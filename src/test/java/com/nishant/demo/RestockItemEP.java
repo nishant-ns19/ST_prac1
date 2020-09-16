@@ -17,7 +17,6 @@ public class RestockItemEP extends ShopTest {
         exception = assertThrows(Exception.class, () -> shop.restockItem(" ", 3));
         assertEquals("Invalid item name length", exception.getMessage());
     }
-
     @Test
     void nameAboveMaximum() throws Exception {
         // number of words in name = 11
@@ -37,9 +36,8 @@ public class RestockItemEP extends ShopTest {
         assertEquals("Invalid quantity", exception.getMessage());
     }
 
-
     @Test
-    void innRange() throws Exception {
+    void inRange() throws Exception {
         // quantity = [1 - Integer.MAX_VALUE]
         // number of words in name = [1 - 10]
         shop.addNewItem("Apple MacBook Pro", 5, 150000);

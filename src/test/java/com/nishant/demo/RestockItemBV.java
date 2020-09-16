@@ -32,31 +32,24 @@ public class RestockItemBV extends ShopTest {
     }
 
     @Test
-    void nameInRange() throws Exception {
-        // number of words in name = [1 - 10]
-        shop.addNewItem("Samsung Galaxy Note 10", 10, 55000);
-        assertEquals(20, shop.restockItem("Samsung Galaxy Note 10", 10));
-    }
-
-    @Test
     void nameBelowMaximum() throws Exception {
         // number of words in name = 9
-        shop.addNewItem("A B C D E 1 2 3 4", 567, 450);
-        assertEquals(600, shop.restockItem("A B C D E 1 2 3 4", 33));
+        shop.addNewItem("A1 B2 C3 D4 E5 F6 G7 H8 I9", 567, 450);
+        assertEquals(600, shop.restockItem("A1 B2 C3 D4 E5 F6 G7 H8 I9", 33));
     }
 
     @Test
     void nameMaximum() throws Exception {
         // number of words in name = 10
-        shop.addNewItem("A B C D E 1 2 3 4 5", 10, 100);
-        assertEquals(20, shop.restockItem("A B C D E 1 2 3 4 5", 10));
+        shop.addNewItem("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10", 10, 100);
+        assertEquals(20, shop.restockItem("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10", 10));
     }
 
     @Test
     void nameAboveMaximum() throws Exception {
         // number of words in name = 11
-        shop.addNewItem("A B C D E 1 2 3", 34, 2321);
-        exception = assertThrows(Exception.class, () -> shop.restockItem("A B C D E 1 2 3 4 5 6", 16));
+        shop.addNewItem("A1 B2 C3 D4 E5 F6 G7 H8", 34, 2321);
+        exception = assertThrows(Exception.class, () -> shop.restockItem("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10 K11", 16));
         assertEquals("Invalid item name length", exception.getMessage());
     }
 
@@ -86,10 +79,11 @@ public class RestockItemBV extends ShopTest {
     }
 
     @Test
-    void quantityInRange() throws Exception {
+    void inRange() throws Exception {
+        // number of words in name = [1 - 10]
         // quantity = [1 - Integer.MAX_VALUE]
-        shop.addNewItem("Apple MacBook Pro", 5, 150000);
+        shop.addNewItem("Samsung Galaxy Note 10", 10, 55000);
         int quantity = random.nextInt(Integer.MAX_VALUE) + 1;
-        assertEquals(5 + quantity, shop.restockItem("Apple MacBook Pro", quantity));
+        assertEquals(10 + quantity, shop.restockItem("Samsung Galaxy Note 10", quantity));
     }
 }

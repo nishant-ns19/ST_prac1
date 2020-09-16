@@ -41,15 +41,6 @@ public class BuyItemBV extends ShopTest {
     }
 
     @Test
-    void nameInRange() throws Exception {
-        // number of words in name = [1 -10]
-        shop.addNewItem("JBL Bluetooth Headphones 220", 5, 4000);
-        cart.clear();
-        cart.put("JBL Bluetooth Headphones 220", 1);
-        assertEquals(4000, shop.buyItem(cart));
-    }
-
-    @Test
     void nameBelowMaximum() throws Exception {
         // number of words in name < 10
         shop.addNewItem("A1 B2 C3 D4 E5 F6 G7 H8 I9", 10, 300);
@@ -108,16 +99,6 @@ public class BuyItemBV extends ShopTest {
     }
 
     @Test
-    void quantityInRange() throws Exception {
-        // quantity = [1 - MAX_QUANTITY_AVAILABLE]
-        shop.addNewItem("iPhone X", 10, 52000);
-        int quantity = random.nextInt(10) + 1;
-        cart.clear();
-        cart.put("iPhone X", quantity);
-        assertEquals(quantity * 52000, shop.buyItem(cart));
-    }
-
-    @Test
     void quantityBelowMaximum() throws Exception {
         // quantity < MAX_QUANTITY_AVAILABLE
         shop.addNewItem("iPhone X", 10, 52000);
@@ -143,5 +124,16 @@ public class BuyItemBV extends ShopTest {
         cart.put("iPhone X", 11);
         exception = assertThrows(Exception.class, () -> shop.buyItem(cart));
         assertEquals("Insufficient stock for: iPhone X", exception.getMessage());
+    }
+
+    @Test
+    void inRange() throws Exception {
+        // number of words in name = [1 -10]
+        // quantity = [1 - MAX_QUANTITY_AVAILABLE]
+        shop.addNewItem("JBL Bluetooth Headphones 220", 10, 4000);
+        cart.clear();
+        int quantity = random.nextInt(10) + 1;
+        cart.put("JBL Bluetooth Headphones 220", quantity);
+        assertEquals(4000 * quantity, shop.buyItem(cart));
     }
 }

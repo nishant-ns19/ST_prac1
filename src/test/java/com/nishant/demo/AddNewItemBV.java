@@ -28,27 +28,21 @@ public class AddNewItemBV extends ShopTest {
     }
 
     @Test
-    void nameInRange() throws Exception {
-        // number of words in name = [1-10]
-        assertTrue(shop.addNewItem("Sony Playstation 5", 10, 50000));
-    }
-
-    @Test
     void nameBelowMaximum() throws Exception {
         // number of words in name = 9
-        assertTrue(shop.addNewItem("a1 b2 c3 d4 e5 f6 g7 h8 i9", 100, 5000));
+        assertTrue(shop.addNewItem("A1 B2 C3 D4 E5 F6 G7 H8 I9", 100, 5000));
     }
 
     @Test
     void nameMaximum() throws Exception {
         // number of words in name = 10
-        assertTrue(shop.addNewItem("a1 b2 c3 d4 e5 f6 g7 h8 i9 j10", 55, 5000));
+        assertTrue(shop.addNewItem("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10", 55, 5000));
     }
 
     @Test
     void nameAboveMaximum() throws Exception {
         // number of words in name = 11
-        exception = assertThrows(Exception.class, () -> shop.addNewItem("a1 b2 c3 d4 e5 f6 g7 h8 i9 j10 l11", 10, 2500));
+        exception = assertThrows(Exception.class, () -> shop.addNewItem("A1 B2 C3 D4 E5 F6 G7 H8 I9 J10 K11", 10, 2500));
         assertEquals("Invalid item name length", exception.getMessage());
     }
 
@@ -74,12 +68,6 @@ public class AddNewItemBV extends ShopTest {
         assertTrue(shop.addNewItem("Laptop", 5, 50000));
     }
 
-    @Test
-    void initialQuantityInRange() throws Exception {
-        // initial quantity = [1 - INT_MAX]
-        assertTrue(shop.addNewItem("Printer", random.nextInt(Integer.MAX_VALUE) + 1, 6000));
-    }
-
     // Attribute -> perItemCost
     // Datatype -> Integer
     // Range -> per item cost = [1 - 2000000000]
@@ -103,12 +91,6 @@ public class AddNewItemBV extends ShopTest {
     }
 
     @Test
-    void perItemCostInRange() throws Exception {
-        // per item cost = [1 - 2000000000]
-        assertTrue(shop.addNewItem("Printer", 5, random.nextInt(2000000000) + 1));
-    }
-
-    @Test
     void perItemCostBelowMaximum() throws Exception {
         // per item cost < 2000000000
         assertTrue(shop.addNewItem("iPad", 22, 1999999999));
@@ -125,6 +107,14 @@ public class AddNewItemBV extends ShopTest {
         // per item cost > 2000000000
         exception = assertThrows(Exception.class, () -> shop.addNewItem("Power Adapter", 25, Integer.MAX_VALUE));
         assertEquals("Invalid per item cost", exception.getMessage());
+    }
+
+    @Test
+    void inRange() throws Exception {
+        // number of words in name = [1-10]
+        // initial quantity = [1 - Integer.MAX_VALUE]
+        // per item cost = [1 - 2000000000]
+        assertTrue(shop.addNewItem("Sony Playstation 5", 10, random.nextInt(2000000000) + 1));
     }
 
 
