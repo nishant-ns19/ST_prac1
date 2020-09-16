@@ -16,36 +16,42 @@ public class RestockItemBV extends ShopTest {
         exception = assertThrows(Exception.class, () -> shop.restockItem(" ", 3));
         assertEquals("Invalid item name length", exception.getMessage());
     }
+
     @Test
     void nameMinimum() throws Exception {
         // number of words in name = 1
         shop.addNewItem("Bag", 5, 2000);
         assertEquals(7, shop.restockItem("Bag", 2));
     }
+
     @Test
     void nameAboveMinimum() throws Exception {
         // number of words in name = 2
         shop.addNewItem("Skipping Rope", 47, 200);
         assertEquals(100, shop.restockItem("Skipping Rope", 53));
     }
+
     @Test
     void nameInRange() throws Exception {
         // number of words in name = [1 - 10]
         shop.addNewItem("Samsung Galaxy Note 10", 10, 55000);
         assertEquals(20, shop.restockItem("Samsung Galaxy Note 10", 10));
     }
+
     @Test
     void nameBelowMaximum() throws Exception {
         // number of words in name = 9
         shop.addNewItem("A B C D E 1 2 3 4", 567, 450);
         assertEquals(600, shop.restockItem("A B C D E 1 2 3 4", 33));
     }
+
     @Test
     void nameMaximum() throws Exception {
         // number of words in name = 10
         shop.addNewItem("A B C D E 1 2 3 4 5", 10, 100);
         assertEquals(20, shop.restockItem("A B C D E 1 2 3 4 5", 10));
     }
+
     @Test
     void nameAboveMaximum() throws Exception {
         // number of words in name = 11
@@ -64,18 +70,21 @@ public class RestockItemBV extends ShopTest {
         exception = assertThrows(Exception.class, () -> shop.restockItem("Rolex Watch", 0));
         assertEquals("Invalid quantity", exception.getMessage());
     }
+
     @Test
     void quantityMinimum() throws Exception {
         // quantity = 1
         shop.addNewItem("Bugatti Veyron", 1, 100000);
         assertEquals(2, shop.restockItem("Bugatti Veyron", 1));
     }
+
     @Test
     void quantityAboveMinimum() throws Exception {
         // quantity > 1
         shop.addNewItem("Apple Watch", 2, 50000);
         assertEquals(4, shop.restockItem("Apple Watch", 2));
     }
+
     @Test
     void quantityInRange() throws Exception {
         // quantity = [1 - Integer.MAX_VALUE]

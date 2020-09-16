@@ -27,7 +27,7 @@ public class Shop {
 
     public boolean checkRegex(String name) {
         String words[] = name.split("\\s+");
-        for(String word : words){
+        for (String word : words) {
             if (!isAlphaNumeric(word)) {
                 return false;
             }
@@ -40,9 +40,13 @@ public class Shop {
         return (length >= MIN_WORDS && length <= MAX_WORDS);
     }
 
-    public boolean checkQuantity(Integer quantity) { return quantity >= MIN_INITIAL_QUANTITY; }
+    public boolean checkQuantity(Integer quantity) {
+        return quantity >= MIN_INITIAL_QUANTITY;
+    }
 
-    public boolean checkCost(Integer cost) { return (cost >= MIN_COST && cost <= MAX_COST); }
+    public boolean checkCost(Integer cost) {
+        return (cost >= MIN_COST && cost <= MAX_COST);
+    }
 
     public boolean addNewItem(String name, Integer initialQuantity, Integer perItemCost) throws Exception {
         if (!checkCost(perItemCost)) {
