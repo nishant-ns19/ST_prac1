@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AddNewItemEP extends ShopTest {
 
+    // Attribute -> name
+    // Datatype -> String
+    // Range -> number of words in name = [1 - 10]
     @Test
     void nameBelowMinimum() throws Exception {
         // number of words in name = 0
@@ -20,6 +23,9 @@ public class AddNewItemEP extends ShopTest {
         assertEquals("Invalid item name length", exception.getMessage());
     }
 
+    // Attribute -> initialQuantity
+    // Datatype -> Integer
+    // Range -> initial quantity = [1 - Integer.MAX_VALUE]
     @Test
     void initialQuantityBelowMinimum() throws Exception {
         // initial quantity < 1
@@ -27,12 +33,16 @@ public class AddNewItemEP extends ShopTest {
         assertEquals("Invalid initial quantity", exception.getMessage());
     }
 
+    // Attribute -> perItemCost
+    // Datatype -> Integer
+    // Range -> per item cost = [1 - 2000000000]
     @Test
     void perItemCostBelowMinimum() throws Exception {
         // per item cost < 1
         exception = assertThrows(Exception.class, () -> shop.addNewItem("Power Adapter", 25, 0));
         assertEquals("Invalid per item cost", exception.getMessage());
     }
+
 
     @Test
     void perItemCostAboveMaximum() throws Exception {
