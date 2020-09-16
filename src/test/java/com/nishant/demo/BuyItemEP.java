@@ -59,7 +59,7 @@ public class BuyItemEP extends ShopTest {
         // quantity = [1 - MAX_QUANTITY_AVAILABLE]
         // number of words in name = [1 -10]
         shop.addNewItem("iPhone X", 10, 52000);
-        int quantity = random.nextInt(9) + 1;
+        int quantity = random.nextInt(10) + 1;
         cart.clear();
         cart.put("iPhone X", quantity);
         assertEquals(quantity * 52000, shop.buyItem(cart));

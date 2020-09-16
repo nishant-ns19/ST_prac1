@@ -89,7 +89,7 @@ public class RestockItemBV extends ShopTest {
     void quantityInRange() throws Exception {
         // quantity = [1 - Integer.MAX_VALUE]
         shop.addNewItem("Apple MacBook Pro", 5, 150000);
-        int quantity = random.nextInt(Integer.MAX_VALUE - 1) + 1;
+        int quantity = random.nextInt(Integer.MAX_VALUE) + 1;
         assertEquals(5 + quantity, shop.restockItem("Apple MacBook Pro", quantity));
     }
 }

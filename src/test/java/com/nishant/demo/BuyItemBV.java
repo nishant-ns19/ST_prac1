@@ -111,7 +111,7 @@ public class BuyItemBV extends ShopTest {
     void quantityInRange() throws Exception {
         // quantity = [1 - MAX_QUANTITY_AVAILABLE]
         shop.addNewItem("iPhone X", 10, 52000);
-        int quantity = random.nextInt(9) + 1;
+        int quantity = random.nextInt(10) + 1;
         cart.clear();
         cart.put("iPhone X", quantity);
         assertEquals(quantity * 52000, shop.buyItem(cart));

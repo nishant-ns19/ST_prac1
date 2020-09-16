@@ -77,7 +77,7 @@ public class AddNewItemBV extends ShopTest {
     @Test
     void initialQuantityInRange() throws Exception {
         // initial quantity = [1 - INT_MAX]
-        assertTrue(shop.addNewItem("Printer", random.nextInt(Integer.MAX_VALUE - 1) + 1, 6000));
+        assertTrue(shop.addNewItem("Printer", random.nextInt(Integer.MAX_VALUE) + 1, 6000));
     }
 
     // Attribute -> perItemCost
