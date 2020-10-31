@@ -21,10 +21,6 @@ public class Shop {
         return name != null && name.matches("^[a-zA-Z0-9]*$");
     }
 
-    public boolean isPresent(String name) {
-        return quantity.containsKey(name) && quantity.get(name) >= MIN_INITIAL_QUANTITY;
-    }
-
     public boolean checkRegex(String name) {
         String words[] = name.split("\\s+");
         for (String word : words) {
@@ -61,9 +57,6 @@ public class Shop {
         if (!checkRegex(name)) {
             throw new Exception("Invalid name, words should be alphanumeric");
         }
-        if (isPresent(name)) {
-            throw new Exception("Existing item can't be added again");
-        }
         quantity.put(name, initialQuantity);
         cost.put(name, perItemCost);
         return true;
@@ -78,9 +71,6 @@ public class Shop {
         }
         if (!checkRegex(name)) {
             throw new Exception("Invalid name, words should be alphanumeric");
-        }
-        if (!isPresent(name)) {
-            throw new Exception("Item not available for re-stocking");
         }
         this.quantity.put(name, this.quantity.get(name) + quantity);
         return this.quantity.get(name);
@@ -99,9 +89,6 @@ public class Shop {
             if (!checkQuantity(itemQuantity)) {
                 throw new Exception("Invalid quantity for one/more cart items");
             }
-            if (!isPresent(itemName)) {
-                throw new Exception("Item not available/Invalid item name : " + itemName);
-            }
             if (quantity.get(itemName) < itemQuantity) {
                 throw new Exception("Insufficient stock for: " + itemName);
             }
@@ -109,14 +96,6 @@ public class Shop {
             totalBill = totalBill + itemQuantity * cost.get(itemName);
         }
         return totalBill;
-    }
-
-    public HashMap<String, Integer> getQuantity() {
-        return quantity;
-    }
-
-    public HashMap<String, Integer> getCost() {
-        return cost;
     }
 }
 
